@@ -36,13 +36,14 @@ window.onload = function () {
   }
   pubButton.onclick = function () {
     var selectedPokers = document.querySelectorAll('.container .selected')
+    var slen = selectedPokers.length
     if (publicCards.length) {
-      alert('Already choose public cards, press reset button to reset')
-    } else if (selectedPokers.length >= 5) {
-      alert('Public cards must less than 5!')
+      alert('Already choose public cards, click reset button to reset')
+    } else if (slen >= 5 || slen === 0) {
+      alert('Please choose 0~4 public public cards')
     } else {
       var s = '<div class="cards">'
-      for (var i = 0; i < selectedPokers.length; i++) {
+      for (var i = 0; i < slen; i++) {
         publicCards.push(selectedPokers[i].id.split('_'))
         selectedPokers[i].classList.remove('selected')
         s += selectedPokers[i].outerHTML
@@ -66,6 +67,11 @@ window.onload = function () {
     publicCards = []
     chosen.innerHTML = ''
     info.innerHTML = ''
+    var scards = document.getElementsByClassName('selected')
+    scards = Array.prototype.slice.call(scards)
+    for (var i = 0; i < scards.length; i++) {
+      scards[i].classList.remove('selected')
+    }
   }
 
   for (var i = 0; i < pokers.length; i++) {
