@@ -54,11 +54,15 @@ window.onload = function () {
     }
   }
   calcButton.onclick = function () {
-    calcButton.disabled = 'true'
-    setTimeout(function () {
-      calculate()
-      showResult()
-    }, 100)
+    if (handCards.length < 2) {
+      alert('Please select 2 or more players!')
+    } else {
+      calcButton.disabled = 'true'
+      setTimeout(function () {
+        calculate()
+        showResult()
+      }, 100)
+    }
   }
   resetButton.onclick = function () {
     winRecords = [0, 0, 0]
