@@ -1,4 +1,4 @@
-let INFO = {
+let LANG = {
   reset: 'Already choose public cards, click reset button to reset',
   hand: 'Please choose 2 hand cards!',
   pub: 'Please choose 0~4 public public cards',
@@ -18,20 +18,20 @@ let publicCards = []
 let winRecords = []
 let winRates = []
 
-let chosen = document.getElementById('chosen')
-let info = document.getElementById('info')
-let handButton = document.getElementById('chooseHandCards')
-let pubButton = document.getElementById('public')
-let calcButton = document.getElementById('calc')
-let resetButton = document.getElementById('reset')
-let pokers = document.querySelectorAll('.container .poker')
+var chosen = document.getElementById('chosen')
+var info = document.getElementById('info')
+var handButton = document.getElementById('chooseHandCards')
+var pubButton = document.getElementById('public')
+var calcButton = document.getElementById('calc')
+var resetButton = document.getElementById('reset')
+var pokers = document.querySelectorAll('.container .poker')
 
 window.onload = function () {
   handButton.onclick = function () {
     let selectedPokers = document.querySelectorAll('.container .selected')
     if (selectedPokers.length !== 2) {
       // alert('Please choose 2 hand cards!')
-      alert(INFO.hand)
+      alert(LANG.hand)
     } else {
       let s = '<div class="cards">'
       let hc = []
@@ -41,9 +41,9 @@ window.onload = function () {
         s += selectedPokers[i].outerHTML
       }
       handCards.push(hc)
-      s += '<span> ' + INFO.player + '' +
-      (playerCount + 1) + INFO.de +
-      ' ' + INFO.hc + '</span><hr /></div>'
+      s += '<span> ' + LANG.player + '' +
+      (playerCount + 1) + LANG.de +
+      ' ' + LANG.hc + '</span><hr /></div>'
       playerCount += 1
       chosen.innerHTML += s
     }
@@ -53,10 +53,10 @@ window.onload = function () {
     let slen = selectedPokers.length
     if (publicCards.length) {
       // alert('Already choose public cards, click reset button to reset')
-      alert(INFO.reset)
+      alert(LANG.reset)
     } else if (slen >= 5) {
       // alert('Please choose 0~4 public public cards')
-      alert(INFO.pub)
+      alert(LANG.pub)
     } else {
       if (slen === 0) return;
       let s = '<div class="cards">'
@@ -65,14 +65,14 @@ window.onload = function () {
         selectedPokers[i].classList.remove('selected')
         s += selectedPokers[i].outerHTML
       }
-      s += '<span> ' + INFO.pc + '</span><hr /></div>'
+      s += '<span> ' + LANG.pc + '</span><hr /></div>'
       chosen.innerHTML += s
     }
   }
   calcButton.onclick = function () {
     if (handCards.length < 2) {
       // alert('Please select 2 or more players!')
-      alert(INFO.more)
+      alert(LANG.more)
     } else {
       calcButton.disabled = 'true'
       setTimeout(function () {
