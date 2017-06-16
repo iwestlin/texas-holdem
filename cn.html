@@ -2,19 +2,18 @@
 <html>
 
 <head>
-  <title>Texas Holdem - Win Rate Calculator</title>
+  <title>德州扑克 - 胜率计算器</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div class="quote">
-    <a href="https://en.wikipedia.org/wiki/Texas_hold_%27em">Texas Hold'em</a> (also known as Texas holdem, hold 'em, and holdem) is a variation of the card game of poker. Two cards, known as the hole cards, are dealt face down to each player, and then five community cards are dealt face up in three stages. The stages consist of a series of three cards ("the flop"), later an additional single card ("the turn" or "fourth street"), and a final card ("the river" or "fifth street"). Each player seeks the best five card poker hand from the combination of the community cards and their own hole cards. If a player's best five card poker hand consists only of the five community cards and none of the player's hole cards, it is called "playing the board". Players have betting options to check, call, raise, or fold. Rounds of betting take place before the flop is dealt and after each subsequent deal.
+    德克萨斯扑克全称 Texas Hold'em poker，中文简称德州扑克。它是一种玩家对玩家的公共牌类游戏。德州扑克一共有52张牌，没有王牌。每个玩家分两张牌作为“底牌”，五张由荷官陆续朝上发出的公共牌。开始的时候，每个玩家会有两张面朝下的底牌。经过所有押注圈后，若仍不能分出胜负，游戏会进入“摊牌”阶段，也就是让所剩的玩家亮出各自的底牌以较高下，持大牌者获胜。
   </div>
   <br>
   <div class="quote imp">
-    First, pick 2 hand cards each time, press 'hand cards' button to select cards for each player, players shoult be 2 or more. Then select 0~4 public cards, after that, click 'calc' button to calculate the win rate of every player. Computer will randomly pick left cards to join public cards and compare for 10000 times at most (due to efficiency). The mean error between result and the real rate should less than 1%.
-    It will take few seconds to get result, please be patient.
+    每次选择两张手牌，点击「手牌」按钮选定，可以添加二至多名玩家。然后选择 0～4 张公共牌。选完后点击计算按钮计算胜率。由于性能问题不能穷举时，电脑会最多选出 10000 种情况，然后根据结果算出胜率，计算结果与真实胜率存在约 1% 以内的误差。点击计算后大概几秒钟后会算出结果，请耐心等候。
   </div>
   <hr>
   <div class="container">
@@ -71,10 +70,10 @@
     <div id="club_2" class="club poker">2</div>
     <div id="diamond_2" class="diamond poker">2</div>
     <div id="mybutton">
-      <button id="chooseHandCards">hand cards</button>
-      <button id="public">public cards</button>
-      <button id="calc">calc winrate</button>
-      <button id="reset">reset cards</button>
+      <button id="chooseHandCards">手牌</button>
+      <button id="public">公牌</button>
+      <button id="calc">计算</button>
+      <button id="reset">重置</button>
     </div>
   </div>
   <hr>
@@ -82,8 +81,8 @@
   <table id="myTable">
     <thead>
       <tr>
-        <th>Player</th>
-        <th>Win Rate (Including Tie)</th>
+        <th>玩家</th>
+        <th>胜率 (包括平局)</th>
       </tr>
     </thead>
     <tbody id="info"></tbody>
@@ -92,6 +91,7 @@
   <script src="utils.js"></script>
   <script src="detect.js"></script>
   <script src="main.js"></script>
+  <script src="lang-cn.js"></script>
 </body>
 
 </html>

@@ -37,6 +37,17 @@ function myConcat (arr) {
   return result
 }
 
+function combNumber (x, y) {
+  var a = 1
+  var b = 1
+  for (var i = y; i > 0; i--) {
+    a *= x
+    x -= 1
+    b *= i
+  }
+  return a / b
+}
+
 function combination (arr, num) {
   var r = [];
   (function f (t, a, n) {

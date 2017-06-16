@@ -1,61 +1,78 @@
-var randomTimes = 10000
-var winRecords = []
-var suits = ['spade', 'heart', 'club', 'diamond']
-var values = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
-var allCards = arrayMultiply(suits, values)
-var playerCount = 0
-var handCards = []
-var publicCards = []
+var INFO = {
+  reset: 'Already choose public cards, click reset button to reset',
+  hand: 'Please choose 2 hand cards!',
+  pub: 'Please choose 0~4 public public cards',
+  player: 'Player',
+  hc: 'Hand cards',
+  pc: 'Public cards',
+  more: 'Please select 2 or more players!',
+  de: '\'s'
+}
+const RANDOMTIMES = 10000
+const SUITS = ['spade', 'heart', 'club', 'diamond']
+const VALUES = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
+const allCards = arrayMultiply(SUITS, VALUES)
+let playerCount = 0
+let handCards = []
+let publicCards = []
+let winRecords = []
+let winRates = []
 
-var chosen = document.getElementById('chosen')
-var info = document.getElementById('info')
-var handButton = document.getElementById('chooseHandCards')
-var pubButton = document.getElementById('public')
-var calcButton = document.getElementById('calc')
-var resetButton = document.getElementById('reset')
-var pokers = document.querySelectorAll('.container .poker')
+let chosen = document.getElementById('chosen')
+let info = document.getElementById('info')
+let handButton = document.getElementById('chooseHandCards')
+let pubButton = document.getElementById('public')
+let calcButton = document.getElementById('calc')
+let resetButton = document.getElementById('reset')
+let pokers = document.querySelectorAll('.container .poker')
 
 window.onload = function () {
   handButton.onclick = function () {
-    var selectedPokers = document.querySelectorAll('.container .selected')
+    let selectedPokers = document.querySelectorAll('.container .selected')
     if (selectedPokers.length !== 2) {
-      alert('Please choose 2 hand cards!')
+      // alert('Please choose 2 hand cards!')
+      alert(INFO.hand)
     } else {
-      var s = '<div class="cards">'
-      var hc = []
-      for (var i = 0; i < selectedPokers.length; i++) {
+      let s = '<div class="cards">'
+      let hc = []
+      for (let i = 0; i < selectedPokers.length; i++) {
         hc.push(selectedPokers[i].id.split('_'))
         selectedPokers[i].classList.remove('selected')
         s += selectedPokers[i].outerHTML
       }
       handCards.push(hc)
-      s += '<span> Player ' + (playerCount + 1) + '\'s hand cards</span><hr /></div>'
+      s += '<span> ' + INFO.player + '' +
+      (playerCount + 1) + INFO.de +
+      ' ' + INFO.hc + '</span><hr /></div>'
       playerCount += 1
       chosen.innerHTML += s
     }
   }
   pubButton.onclick = function () {
-    var selectedPokers = document.querySelectorAll('.container .selected')
-    var slen = selectedPokers.length
+    let selectedPokers = document.querySelectorAll('.container .selected')
+    let slen = selectedPokers.length
     if (publicCards.length) {
-      alert('Already choose public cards, click reset button to reset')
-    } else if (slen >= 5 || slen === 0) {
-      alert('Please choose 0~4 public public cards')
+      // alert('Already choose public cards, click reset button to reset')
+      alert(INFO.reset)
+    } else if (slen >= 5) {
+      // alert('Please choose 0~4 public public cards')
+      alert(INFO.pub)
     } else {
-      var s = '<div class="cards">'
-      for (var i = 0; i < slen; i++) {
+      if (slen === 0) return;
+      let s = '<div class="cards">'
+      for (let i = 0; i < slen; i++) {
         publicCards.push(selectedPokers[i].id.split('_'))
         selectedPokers[i].classList.remove('selected')
         s += selectedPokers[i].outerHTML
       }
-      s += '<span> Public cards</span><hr /></div>'
-      playerCount += 1
+      s += '<span> ' + INFO.pc + '</span><hr /></div>'
       chosen.innerHTML += s
     }
   }
   calcButton.onclick = function () {
     if (handCards.length < 2) {
-      alert('Please select 2 or more players!')
+      // alert('Please select 2 or more players!')
+      alert(INFO.more)
     } else {
       calcButton.disabled = 'true'
       setTimeout(function () {
@@ -71,27 +88,27 @@ window.onload = function () {
     publicCards = []
     chosen.innerHTML = ''
     info.innerHTML = ''
-    var scards = document.getElementsByClassName('selected')
+    let scards = document.getElementsByClassName('selected')
     scards = Array.prototype.slice.call(scards)
-    for (var i = 0; i < scards.length; i++) {
+    for (let i = 0; i < scards.length; i++) {
       scards[i].classList.remove('selected')
     }
   }
 
-  for (var i = 0; i < pokers.length; i++) {
+  for (let i = 0; i < pokers.length; i++) {
     pokers[i].onclick = triggerSelected(i)
   }
 }
 
 function arraylize (arr) {
-  var mysuits = Array(4).fill(0)
-  var myvalues = Array(13).fill(0)
-  for (var i = 0; i < arr.length; i++) {
-    if (suits.indexOf(arr[i][0]) > -1) {
-      mysuits[suits.indexOf(arr[i][0])] += 1
+  let mysuits = Array(4).fill(0)
+  let myvalues = Array(13).fill(0)
+  for (let i = 0; i < arr.length; i++) {
+    if (SUITS.indexOf(arr[i][0]) > -1) {
+      mysuits[SUITS.indexOf(arr[i][0])] += 1
     }
-    if (values.indexOf(arr[i][1]) > -1) {
-      myvalues[values.indexOf(arr[i][1])] += 1
+    if (VALUES.indexOf(arr[i][1]) > -1) {
+      myvalues[VALUES.indexOf(arr[i][1])] += 1
     }
   }
   return [mysuits, myvalues]
@@ -108,10 +125,10 @@ function triggerSelected (i) {
 }
 
 function showResult () {
-  var s = ''
-  for (var i = 0; i < winRecords.length; i++) {
+  let s = ''
+  for (let i = 0; i < winRecords.length; i++) {
     s += '<tr><td>' + (i + 1) + '</td><td>' +
-    (winRecords[i] / randomTimes) + '</td></tr>'
+    winRates[i] + '</td></tr>'
   }
   info.innerHTML = s
   calcButton.disabled = ''
@@ -119,54 +136,71 @@ function showResult () {
 
 function calculate () {
   winRecords = Array(handCards.length).fill(0)
-  var allSelectedCards = []
+  let allSelectedCards = []
 
-  for (var i = 0; i < handCards.length; i++) {
-    for (var j = 0; j < handCards[i].length; j++) {
+  for (let i = 0; i < handCards.length; i++) {
+    for (let j = 0; j < handCards[i].length; j++) {
       allSelectedCards.push(handCards[i][j])
     }
   }
 
   allSelectedCards = allSelectedCards.concat(publicCards)
-  var leftCards = arrayWithout(myConcat(allCards), myConcat(allSelectedCards))
+  let leftCards = arrayWithout(myConcat(allCards), myConcat(allSelectedCards))
+  let short = 5 - publicCards.length
+  let possibilities = combNumber(leftCards.length, short)
+  // console.log(leftCards.length, short, possibilities)
 
-  for (var index = 0; index < randomTimes; index++) {
-    var randomPickedCards = []
-    var pubCardsCopy = publicCards.slice(0)
-    var randomPickedNums = randomPick(leftCards.length, 5 - publicCards.length)
-    for (i = 0; i < randomPickedNums.length; i++) {
-      randomPickedCards.push(leftCards[randomPickedNums[i]])
+  if (possibilities < RANDOMTIMES) {
+    let indexes = Array(leftCards.length).fill(0).map((v, i) => i)
+    let combs = combination(indexes, short)
+    for (let i = 0; i < combs.length; i++) {
+      let addedCards = [].concat(publicCards)
+      combs[i].forEach(v => addedCards.push(leftCards[v].split('_')))
+      let winners = whoWin(addedCards, handCards)
+      winners.forEach(v => winRecords[v]++)
     }
-    for (i = 0; i < randomPickedCards.length; i++) {
-      pubCardsCopy.push(randomPickedCards[i].split('_'))
-    }
+    winRates = winRecords.map(v => (v / possibilities).toPrecision(4))
+  } else {
+    for (let count = 0; count < RANDOMTIMES; count++) {
+      let randomPickedCards = []
+      let publicCardsCopy = publicCards.slice(0)
+      let randomPickedNums = randomPick(leftCards.length, 5 - publicCards.length)
 
-    var winners = whoWin(pubCardsCopy, handCards)
-    for (i = 0; i < winners.length; i++) {
-      winRecords[winners[i]]++
+      for (let i = 0; i < randomPickedNums.length; i++) {
+        randomPickedCards.push(leftCards[randomPickedNums[i]])
+      }
+      for (let i = 0; i < randomPickedCards.length; i++) {
+        publicCardsCopy.push(randomPickedCards[i].split('_'))
+      }
+
+      let winners = whoWin(publicCardsCopy, handCards)
+      for (let i = 0; i < winners.length; i++) {
+        winRecords[winners[i]]++
+      }
     }
+    winRates = winRecords.map(v => v / RANDOMTIMES)
   }
 }
 
 // 输入5张公共牌和所有玩家手牌，输出胜利的玩家(们)的index数组
-function whoWin (pubCards, handCards) {
-  var combs = combination([0, 1, 2, 3, 4, 5, 6], 5)
-  var maxes = Array(handCards.length).fill(0)
-  for (var i = 0; i < handCards.length; i++) {
-    var sevenCards = pubCards.concat(handCards[i])
-    for (var j = 0; j < combs.length; j++) {
-      var fiveCards = []
-      for (var k = 0; k < combs[j].length; k++) {
+function whoWin (publicCards, handCards) {
+  let combs = combination([0, 1, 2, 3, 4, 5, 6], 5)
+  let maxes = Array(handCards.length).fill(0)
+  for (let i = 0; i < handCards.length; i++) {
+    let sevenCards = publicCards.concat(handCards[i])
+    for (let j = 0; j < combs.length; j++) {
+      let fiveCards = []
+      for (let k = 0; k < combs[j].length; k++) {
         fiveCards.push(sevenCards[combs[j][k]])
       }
-      var cardsValue = getCardsValue(fiveCards)
+      let cardsValue = getCardsValue(fiveCards)
       if (maxes[i] < cardsValue) {
         maxes[i] = cardsValue
       }
     }
   }
-  var result = []
-  var max = Math.max.apply(null, maxes)
+  let result = []
+  let max = Math.max.apply(null, maxes)
   maxes.map(function (x, i) {
     if (x === max) {
       result.push(i)
