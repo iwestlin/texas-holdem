@@ -4,8 +4,7 @@
 }
 
 body {
-  width: 90%;
-  max-width: 935px;
+  width: 935px;
   border: 1px dashed #666;
   margin: 0 auto;
   margin-top: 10px;
