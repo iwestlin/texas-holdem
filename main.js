@@ -1,4 +1,4 @@
-var INFO = {
+let INFO = {
   reset: 'Already choose public cards, click reset button to reset',
   hand: 'Please choose 2 hand cards!',
   pub: 'Please choose 0~4 public public cards',
@@ -8,10 +8,10 @@ var INFO = {
   more: 'Please select 2 or more players!',
   de: '\'s'
 }
-const RANDOMTIMES = 10000
-const SUITS = ['spade', 'heart', 'club', 'diamond']
-const VALUES = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
-const allCards = arrayMultiply(SUITS, VALUES)
+let RANDOMTIMES = 10000
+let SUITS = ['spade', 'heart', 'club', 'diamond']
+let VALUES = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
+let allCards = arrayMultiply(SUITS, VALUES)
 let playerCount = 0
 let handCards = []
 let publicCards = []
