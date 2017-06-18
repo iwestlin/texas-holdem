@@ -8,16 +8,18 @@ let LANG = {
   more: 'Please select 2 or more players!',
   de: '\'s'
 }
-let RANDOMTIMES = 10000
-let SUITS = ['spade', 'heart', 'club', 'diamond']
-let VALUES = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
-let allCards = arrayMultiply(SUITS, VALUES)
+const RANDOMTIMES = 10000
+const SUITS = ['spade', 'heart', 'club', 'diamond']
+const VALUES = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
+const allCards = arrayMultiply(SUITS, VALUES)
 let playerCount = 0
 let handCards = []
 let publicCards = []
 let winRecords = []
 let winRates = []
 
+// use var instead of let, because of a bug in safari:
+// let someID = document.getElementById('someID') will trigger a bug
 var chosen = document.getElementById('chosen')
 var info = document.getElementById('info')
 var handButton = document.getElementById('chooseHandCards')
