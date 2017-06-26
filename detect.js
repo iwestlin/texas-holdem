@@ -9,6 +9,18 @@
     return false
   }
 
+  function detectGaopai (mysuits, myvalues) {
+    if (!detectTonghua(mysuits) && !detectShunzi(myvalues) && !detectAShunzi(myvalues)) {
+      for (var i = 0; i < myvalues.length; i++) {
+        if (myvalues[i] > 1) {
+          return false
+        }
+      }
+      return true
+    }
+    return false
+  }
+
   function detectShunzi (myvalues) {
     var continueNum = 0
     for (var i = 0; i < myvalues.length; i++) {
@@ -90,7 +102,9 @@
       return 12 - parseInt(arr[1].indexOf(i))
     }
 
-    if (detectDuizi(arr[1])) { // 对子，不可比
+    if (detectGaopai(arr[0], arr[1])) { // 高牌，可比
+      return [high, myArrValue]
+    } else if (detectDuizi(arr[1])) { // 对子，不可比
       high = 1
       myArrValue = high * 1e13 + toNum(2) * 1e11 + parseInt(arrValue) / 100
     } else if (detectLiangdui(arr[1])) { // 两对，不可比
