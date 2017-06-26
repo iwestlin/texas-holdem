@@ -19,105 +19,90 @@ let winRecords = []
 let winRates = []
 
 // use var instead of let, because of a bug in safari:
-// let someID = document.getElementById('someID') will trigger a bug
-var chosen = document.getElementById('chosen')
-var info = document.getElementById('info')
-var handButton = document.getElementById('chooseHandCards')
-var pubButton = document.getElementById('public')
-var calcButton = document.getElementById('calc')
-var resetButton = document.getElementById('reset')
+// let someID = document.getElementById('someID') will throw an error
+var chosen = id('chosen')
+var info = id('info')
+var handButton = id('chooseHandCards')
+var pubButton = id('public')
+var calcButton = id('calc')
+var resetButton = id('reset')
 var pokers = document.querySelectorAll('.container .poker')
 
-window.onload = function () {
-  handButton.onclick = function () {
-    let selectedPokers = document.querySelectorAll('.container .selected')
-    if (selectedPokers.length !== 2) {
-      // alert('Please choose 2 hand cards!')
-      alert(LANG.hand)
-    } else {
-      let s = '<div class="cards">'
-      let hc = []
-      for (let i = 0; i < selectedPokers.length; i++) {
-        hc.push(selectedPokers[i].id.split('_'))
-        selectedPokers[i].classList.remove('selected')
-        s += selectedPokers[i].outerHTML
-      }
-      handCards.push(hc)
-      s += '<span> ' + LANG.player + '' +
-      (playerCount + 1) + LANG.de +
-      ' ' + LANG.hc + '</span><hr /></div>'
-      playerCount += 1
-      chosen.innerHTML += s
+handButton.addEventListener('click', function () {
+  let selectedPokers = document.querySelectorAll('.container .selected')
+  if (selectedPokers.length !== 2) {
+    // alert('Please choose 2 hand cards!')
+    alert(LANG.hand)
+  } else {
+    let s = '<div class="cards">'
+    let hc = []
+    for (let i = 0; i < selectedPokers.length; i++) {
+      hc.push(selectedPokers[i].id.split('_'))
+      selectedPokers[i].classList.remove('selected')
+      s += selectedPokers[i].outerHTML
     }
+    handCards.push(hc)
+    s += '<span> ' + LANG.player + ' ' +
+    (playerCount + 1) + ' ' + LANG.de +
+    LANG.hc + '</span><hr /></div>'
+    playerCount += 1
+    chosen.innerHTML += s
   }
-  pubButton.onclick = function () {
-    let selectedPokers = document.querySelectorAll('.container .selected')
-    let slen = selectedPokers.length
-    if (publicCards.length) {
-      // alert('Already choose public cards, click reset button to reset')
-      alert(LANG.reset)
-    } else if (slen >= 5) {
-      // alert('Please choose 0~4 public public cards')
-      alert(LANG.pub)
-    } else {
-      if (slen === 0) return;
-      let s = '<div class="cards">'
-      for (let i = 0; i < slen; i++) {
-        publicCards.push(selectedPokers[i].id.split('_'))
-        selectedPokers[i].classList.remove('selected')
-        s += selectedPokers[i].outerHTML
-      }
-      s += '<span> ' + LANG.pc + '</span><hr /></div>'
-      chosen.innerHTML += s
-    }
-  }
-  calcButton.onclick = function () {
-    if (handCards.length < 2) {
-      // alert('Please select 2 or more players!')
-      alert(LANG.more)
-    } else {
-      calcButton.disabled = 'true'
-      setTimeout(function () {
-        calculate()
-        showResult()
-      }, 100)
-    }
-  }
-  resetButton.onclick = function () {
-    winRecords = [0, 0, 0]
-    playerCount = 0
-    handCards = []
-    publicCards = []
-    chosen.innerHTML = ''
-    info.innerHTML = ''
-    let scards = document.getElementsByClassName('selected')
-    scards = Array.prototype.slice.call(scards)
-    for (let i = 0; i < scards.length; i++) {
-      scards[i].classList.remove('selected')
-    }
-  }
+})
 
+pubButton.addEventListener('click', function () {
+  let selectedPokers = document.querySelectorAll('.container .selected')
+  let slen = selectedPokers.length
+  if (publicCards.length) {
+    // alert('Already choose public cards, click reset button to reset')
+    alert(LANG.reset)
+  } else if (slen >= 5) {
+    // alert('Please choose 0~4 public public cards')
+    alert(LANG.pub)
+  } else {
+    if (slen === 0) return;
+    let s = '<div class="cards">'
+    for (let i = 0; i < slen; i++) {
+      publicCards.push(selectedPokers[i].id.split('_'))
+      selectedPokers[i].classList.remove('selected')
+      s += selectedPokers[i].outerHTML
+    }
+    s += '<span> ' + LANG.pc + '</span><hr /></div>'
+    chosen.innerHTML += s
+  }
+})
+
+calcButton.addEventListener('click', function () {
+  if (handCards.length < 2) {
+    // alert('Please select 2 or more players!')
+    alert(LANG.more)
+  } else {
+    calcButton.disabled = 'true'
+    setTimeout(function () {
+      calculate()
+      showResult()
+    }, 100)
+  }
+})
+
+resetButton.addEventListener('click', function () {
+  winRecords = [0, 0, 0]
+  playerCount = 0
+  handCards = []
+  publicCards = []
+  chosen.innerHTML = ''
+  info.innerHTML = ''
+  let scards = document.getElementsByClassName('selected')
+  scards = Array.prototype.slice.call(scards)
+  for (let i = 0; i < scards.length; i++) {
+    scards[i].classList.remove('selected')
+  }
+})
+
+window.onload = function () {
   for (let i = 0; i < pokers.length; i++) {
     pokers[i].onclick = triggerSelected(i)
   }
-}
-
-function arraylize (arr) {
-  let mysuits = Array(4).fill(0)
-  let myvalues = Array(13).fill(0)
-  for (let i = 0; i < arr.length; i++) {
-    if (SUITS.indexOf(arr[i][0]) > -1) {
-      mysuits[SUITS.indexOf(arr[i][0])] += 1
-    }
-    if (VALUES.indexOf(arr[i][1]) > -1) {
-      myvalues[VALUES.indexOf(arr[i][1])] += 1
-    }
-  }
-  return [mysuits, myvalues]
-}
-
-function getCardsValue (arr) {
-  return detect(arraylize(arr))[1]
 }
 
 function triggerSelected (i) {

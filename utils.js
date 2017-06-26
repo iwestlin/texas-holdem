@@ -1,3 +1,7 @@
+function id (s) {
+  return document.getElementById(s)
+}
+
 function randomPick (n, m) {
   if (Math.abs(parseInt(n)) !== n || Math.abs(parseInt(m)) !== m || n < m || n === 0 || m === 0) {
     console.log('randomPick的参数为两个正整数，且前者不能小于后者！')
@@ -69,4 +73,22 @@ function arrayMultiply (a1, a2) {
     }
   }
   return result
+}
+
+function arraylize (arr) {
+  let mysuits = Array(4).fill(0)
+  let myvalues = Array(13).fill(0)
+  for (let i = 0; i < arr.length; i++) {
+    if (SUITS.indexOf(arr[i][0]) > -1) {
+      mysuits[SUITS.indexOf(arr[i][0])] += 1
+    }
+    if (VALUES.indexOf(arr[i][1]) > -1) {
+      myvalues[VALUES.indexOf(arr[i][1])] += 1
+    }
+  }
+  return [mysuits, myvalues]
+}
+
+function getCardsValue (arr) {
+  return detect(arraylize(arr))[1]
 }
