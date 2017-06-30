@@ -115,7 +115,7 @@ function showResult () {
   let s = ''
   for (let i = 0; i < winRecords.length; i++) {
     s += '<tr><td>' + (i + 1) + '</td><td>' +
-    winRates[i] + '</td></tr>'
+    toPercent(winRates[i]) + '</td></tr>'
   }
   info.innerHTML = s
   calcButton.disabled = ''

@@ -1,18 +1,27 @@
 (function () {
     
-  function detectTonghua (mysuits) {
-    for (var i = 0; i < mysuits.length; i++) {
-      if (mysuits[i] === 5) {
+  function detectTonghua (suits) {
+    for (var i = 0; i < suits.length; i++) {
+      if (suits[i] === 5) {
         return true
       }
     }
     return false
   }
 
-  function detectGaopai (mysuits, myvalues) {
-    if (!detectTonghua(mysuits) && !detectShunzi(myvalues) && !detectAShunzi(myvalues)) {
-      for (var i = 0; i < myvalues.length; i++) {
-        if (myvalues[i] > 1) {
+  function detectAllSingle (values) {
+    for (var i = 0; i < values.length; i++) {
+      if (values[i] > 1) {
+        return false
+      }
+    }
+    return true
+  }
+
+  function detectGaopai (suits, values) {
+    if (!detectTonghua(suits) && !detectShunzi(values) && !detectAShunzi(values)) {
+      for (var i = 0; i < values.length; i++) {
+        if (values[i] > 1) {
           return false
         }
       }
@@ -21,11 +30,11 @@
     return false
   }
 
-  function detectShunzi (myvalues) {
+  function detectShunzi (values) {
     var continueNum = 0
-    for (var i = 0; i < myvalues.length; i++) {
-      if (myvalues[i] === 1) {
-        if (myvalues[i + 1] === 1) {
+    for (var i = 0; i < values.length; i++) {
+      if (values[i] === 1) {
+        if (values[i + 1] === 1) {
           continueNum++
         }
       }
@@ -33,60 +42,60 @@
     return (continueNum === 4)
   }
 
-  function detectAShunzi (mysizes) { // 最小的顺子 A,2,3,4,5
-    return (mysizes.join('') === '1000000001111')
+  function detectAShunzi (values) { // 最小的顺子 A,2,3,4,5
+    return (values.join('') === '1000000001111')
   }
 
-  function detectSitiao (myvalues) {
-    var maxNum = Math.max.apply(null, myvalues)
+  function detectSitiao (values) {
+    var maxNum = Math.max.apply(null, values)
     if (maxNum === 4) {
       return true
     }
     return false
   }
 
-  function detectHulu (myvalues) {
-    var maxNum = Math.max.apply(null, myvalues)
-    var myvaluesCopy = myvalues.slice(0)
+  function detectHulu (values) {
+    var maxNum = Math.max.apply(null, values)
+    var valuesCopy = values.slice(0)
     if (maxNum === 3) {
-      myvaluesCopy[myvaluesCopy.indexOf(maxNum)] = 0
-      if (Math.max.apply(null, myvaluesCopy) === 2) {
+      valuesCopy[valuesCopy.indexOf(maxNum)] = 0
+      if (Math.max.apply(null, valuesCopy) === 2) {
         return true
       }
     }
     return false
   }
 
-  function detectSantiao (myvalues) {
-    var maxNum = Math.max.apply(null, myvalues)
-    var myvaluesCopy = myvalues.slice(0)
+  function detectSantiao (values) {
+    var maxNum = Math.max.apply(null, values)
+    var valuesCopy = values.slice(0)
     if (maxNum === 3) {
-      myvaluesCopy[myvaluesCopy.indexOf(maxNum)] = 0
-      if (Math.max.apply(null, myvaluesCopy) < 2) {
+      valuesCopy[valuesCopy.indexOf(maxNum)] = 0
+      if (Math.max.apply(null, valuesCopy) < 2) {
         return true
       }
     }
     return false
   }
 
-  function detectLiangdui (myvalues) {
-    var maxNum = Math.max.apply(null, myvalues)
-    var myvaluesCopy = myvalues.slice(0)
+  function detectLiangdui (values) {
+    var maxNum = Math.max.apply(null, values)
+    var valuesCopy = values.slice(0)
     if (maxNum === 2) {
-      myvaluesCopy[myvaluesCopy.indexOf(maxNum)] = 0
-      if (Math.max.apply(null, myvaluesCopy) === 2) {
+      valuesCopy[valuesCopy.indexOf(maxNum)] = 0
+      if (Math.max.apply(null, valuesCopy) === 2) {
         return true
       }
     }
     return false
   }
 
-  function detectDuizi (myvalues) {
-    var maxNum = Math.max.apply(null, myvalues)
-    var myvaluesCopy = myvalues.slice(0)
+  function detectDuizi (values) {
+    var maxNum = Math.max.apply(null, values)
+    var valuesCopy = values.slice(0)
     if (maxNum === 2) {
-      myvaluesCopy[myvaluesCopy.indexOf(maxNum)] = 0
-      if (Math.max.apply(null, myvaluesCopy) < 2) {
+      valuesCopy[valuesCopy.indexOf(maxNum)] = 0
+      if (Math.max.apply(null, valuesCopy) < 2) {
         return true
       }
     }
@@ -102,7 +111,8 @@
       return 12 - parseInt(arr[1].indexOf(i))
     }
 
-    if (detectGaopai(arr[0], arr[1])) { // 高牌，可比
+    // if (detectGaopai(arr[0], arr[1])) { // 高牌，可比
+    if (detectAllSingle(arr[1]) && detectTonghua(arr[0]) && detectShunzi(arr[1]) && detectAShunzi(arr[1])) {
       return [high, myArrValue]
     } else if (detectDuizi(arr[1])) { // 对子，不可比
       high = 1

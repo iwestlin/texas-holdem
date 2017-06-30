@@ -1,3 +1,9 @@
+function toPercent (n) {
+  n = Number(n) * 100
+  n = n.toFixed(2)
+  return n + '%'
+}
+
 function id (s) {
   return document.getElementById(s)
 }
