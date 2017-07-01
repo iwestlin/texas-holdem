@@ -81,7 +81,7 @@ function arrayMultiply (a1, a2) {
   return result
 }
 
-function arraylize (arr) {
+function arrayize (arr) {
   let mysuits = Array(4).fill(0)
   let myvalues = Array(13).fill(0)
   for (let i = 0; i < arr.length; i++) {
@@ -96,5 +96,5 @@ function arraylize (arr) {
 }
 
 function getCardsValue (arr) {
-  return detect(arraylize(arr))[1]
+  return detect(arrayize(arr))[1]
 }
