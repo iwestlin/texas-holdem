@@ -18,18 +18,6 @@
     return true
   }
 
-  function detectGaopai (suits, values) {
-    if (!detectTonghua(suits) && !detectShunzi(values) && !detectAShunzi(values)) {
-      for (var i = 0; i < values.length; i++) {
-        if (values[i] > 1) {
-          return false
-        }
-      }
-      return true
-    }
-    return false
-  }
-
   function detectShunzi (values) {
     var continueNum = 0
     for (var i = 0; i < values.length; i++) {
@@ -102,7 +90,7 @@
     return false
   }
 
-  function detect (arr) { // 判断牌型为levels[i]
+  function detect (arr) {
     var high = 0 // 初始值为高牌
     var arrValue = arr[1].join('')
     var myArrValue = parseInt(arrValue) // 默认为高牌
@@ -111,8 +99,7 @@
       return 12 - parseInt(arr[1].indexOf(i))
     }
 
-    // if (detectGaopai(arr[0], arr[1])) { // 高牌，可比
-    if (detectAllSingle(arr[1]) && detectTonghua(arr[0]) && detectShunzi(arr[1]) && detectAShunzi(arr[1])) {
+    if (detectAllSingle(arr[1]) && !detectTonghua(arr[0]) && !detectShunzi(arr[1]) && !detectAShunzi(arr[1])) { // 高牌，可比
       return [high, myArrValue]
     } else if (detectDuizi(arr[1])) { // 对子，不可比
       high = 1
