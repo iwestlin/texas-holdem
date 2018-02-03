@@ -1,4 +1,4 @@
-# A Win Rate Calculator for Texas-Holdem
+# A Winning Percentage Calculator for Texas-Holdem
 
 [Usage GIF](http://wx4.sinaimg.cn/mw1024/7f95814bly1fgj6drtpe0g20qu0lax6x.gif)
 
